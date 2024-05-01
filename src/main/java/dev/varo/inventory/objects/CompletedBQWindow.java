@@ -27,7 +27,7 @@ public class CompletedBQWindow {
     private Date date;
 
     public void createDate() throws ParseException {
-        String monthValue = MonthTranslations.translateToEnglish(month);
+        String monthValue = MonthTranslations.convertToNumber(month);
         LocalDate currentDate = LocalDate.now();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
