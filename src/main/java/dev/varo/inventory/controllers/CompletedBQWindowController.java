@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class CompletedBQWindowController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addBQWindows(@RequestBody List<CompletedBQWindow> completedBQWindows) throws ParseException, ChangeSetPersister.NotFoundException {
+        List<CompletedBQWindow> windowsToRemove = new ArrayList<>();
+
         for (CompletedBQWindow completedBQWindow : completedBQWindows) {
             completedBQWindow.createDate();
             Optional<BQWindow> optionalBQWindow = bqWindowService.bqWindowByName(completedBQWindow.getName());
@@ -45,16 +48,22 @@ public class CompletedBQWindowController {
 
                         inventoryItem.setQuantity(newQuantity);
                         inventoryService.updateInventoryItemQuantity(inventoryItem);
-                        System.out.println(String.format("INVENTORY ITEM NAME: %s\tOLD QUANTITY: %s\t" +
-                                "NEW QUANTITY: %s", inventoryItemName, oldQuantity, newQuantity));
                     }
                 }
+            } else {
+                windowsToRemove.add(completedBQWindow);
             }
         }
 
-        System.out.println(completedBQWindows);
+        for (CompletedBQWindow completedBQWindow : windowsToRemove) {
+            completedBQWindows.remove(completedBQWindow);
+        }
         completedBQWindowService.addCompletedBQWindows(completedBQWindows);
 
-        return ResponseEntity.ok("BQ Doors added successfully");
+        if (!windowsToRemove.isEmpty()) {
+            return ResponseEntity.ok("Some BQ Windows weren't added due to not being present");
+        }
+
+        return ResponseEntity.ok("All BQ Windows added successfully");
     }
 }

@@ -22,7 +22,7 @@ public class InventoryService {
         return inventoryRepository.findInventoryItemByName(name);
     }
 
-    public void updateInventoryItemQuantity(InventoryItem item) throws ChangeSetPersister.NotFoundException {
+    public void updateInventoryItemQuantity(InventoryItem item) {
         inventoryRepository.save(item);
     }
 }

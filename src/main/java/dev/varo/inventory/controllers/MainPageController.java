@@ -21,23 +21,48 @@ public class MainPageController {
     @Autowired
     private MainPageService mainPageService;
 
-    @GetMapping("/bq-doors")
-    public ResponseEntity<List<CompletedBQDoor>> getAllBQDoors() {
-        return new ResponseEntity<>(mainPageService.allCompletedBQDoors(), HttpStatus.OK);
-    }
-
     @GetMapping("/bq-doors/{month}")
     public ResponseEntity<Optional<List<CompletedBQDoor>>> getCompletedBQDoorsByMonth(@PathVariable String month) {
-        return new ResponseEntity<>(mainPageService.completedBQDoorsByMonth(month), HttpStatus.OK);
+        Optional<List<CompletedBQDoor>> completedBQDoors = mainPageService.completedBQDoorsByMonth(month);
+
+        if (completedBQDoors.isPresent()) {
+            if (completedBQDoors.get().isEmpty()) {
+                return new ResponseEntity<>(completedBQDoors, HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(completedBQDoors, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(completedBQDoors, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/bq-windows/{month}")
     public ResponseEntity<Optional<List<CompletedBQWindow>>> getCompletedBQWindowsByMonth(@PathVariable String month) {
-        return new ResponseEntity<>(mainPageService.completedBQWindowsByMonth(month), HttpStatus.OK);
+        Optional<List<CompletedBQWindow>> completedBQWindows = mainPageService.completedBQWindowsByMonth(month);
+
+        if (completedBQWindows.isPresent()) {
+            if (completedBQWindows.get().isEmpty()) {
+                return new ResponseEntity<>(completedBQWindows, HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(completedBQWindows, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(completedBQWindows, HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/polo-doors/{month}")
     public ResponseEntity<Optional<List<CompletedPoloDoor>>> getCompletedPoloDoorsByMonth(@PathVariable String month) {
-        return new ResponseEntity<>(mainPageService.completedPoloDoorsByMonth(month), HttpStatus.OK);
+        Optional<List<CompletedPoloDoor>> completedPoloDoors = mainPageService.completedPoloDoorsByMonth(month);
+
+        if (completedPoloDoors.isPresent()) {
+            if (completedPoloDoors.get().isEmpty()) {
+                return new ResponseEntity<>(completedPoloDoors, HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(completedPoloDoors, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(completedPoloDoors, HttpStatus.NOT_FOUND);
+        }
     }
 }

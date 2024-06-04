@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,8 @@ public class CompletedPoloDoorController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addPoloDoors(@RequestBody List<CompletedPoloDoor> completedPoloDoors) throws ParseException, ChangeSetPersister.NotFoundException {
+        List<CompletedPoloDoor> doorsToRemove = new ArrayList<>();
+
         for (CompletedPoloDoor completedPoloDoor : completedPoloDoors) {
             completedPoloDoor.createDate();
             Optional<PoloDoor> optionalPoloDoor = poloDoorService.poloDoorByName(completedPoloDoor.getName());
@@ -45,16 +48,23 @@ public class CompletedPoloDoorController {
 
                         inventoryItem.setQuantity(newQuantity);
                         inventoryService.updateInventoryItemQuantity(inventoryItem);
-                        System.out.println(String.format("INVENTORY ITEM NAME: %s\tOLD QUANTITY: %s\t" +
-                                "NEW QUANTITY: %s", inventoryItemName, oldQuantity, newQuantity));
                     }
                 }
+            } else {
+                doorsToRemove.add(completedPoloDoor);
             }
         }
 
-        System.out.println(completedPoloDoors);
+        for (CompletedPoloDoor completedPoloDoor : doorsToRemove) {
+            completedPoloDoors.remove(completedPoloDoor);
+        }
+
         completedPoloDoorService.addCompletedPoloDoors(completedPoloDoors);
 
-        return ResponseEntity.ok("Polo Doors added successfully");
+        if (!doorsToRemove.isEmpty()) {
+            return ResponseEntity.ok("Some Polo Doors weren't added due to not being present");
+        }
+
+        return ResponseEntity.ok("All Polo Doors added successfully");
     }
 }

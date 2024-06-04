@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,8 @@ public class CompletedBQDoorController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addBQDoors(@RequestBody List<CompletedBQDoor> completedBQDoors) throws ParseException, ChangeSetPersister.NotFoundException {
+        List<CompletedBQDoor> doorsToRemove = new ArrayList<>();
+
         for (CompletedBQDoor completedBQDoor : completedBQDoors) {
             completedBQDoor.createDate();
             Optional<BQDoor> optionalBQDoor = bqDoorService.bqDoorByName(completedBQDoor.getName());
@@ -47,16 +50,23 @@ public class CompletedBQDoorController {
 
                         inventoryItem.setQuantity(newQuantity);
                         inventoryService.updateInventoryItemQuantity(inventoryItem);
-                        System.out.println(String.format("INVENTORY ITEM NAME: %s\tOLD QUANTITY: %s\t" +
-                                "NEW QUANTITY: %s", inventoryItemName, oldQuantity, newQuantity));
                     }
                 }
+            } else {
+                doorsToRemove.add(completedBQDoor);
             }
         }
 
-        System.out.println(completedBQDoors);
+        for (CompletedBQDoor completedBQDoor : doorsToRemove) {
+            completedBQDoors.remove(completedBQDoor);
+        }
+
         completedBQDoorService.addCompletedBQDoors(completedBQDoors);
 
-        return ResponseEntity.ok("BQ Doors added successfully");
+        if (!doorsToRemove.isEmpty()) {
+            return ResponseEntity.ok("Some BQ Doors weren't added due to not being present");
+        }
+
+        return ResponseEntity.ok("All BQ Doors added successfully");
     }
 }

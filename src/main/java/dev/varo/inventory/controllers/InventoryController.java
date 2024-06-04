@@ -28,29 +28,13 @@ public class InventoryController {
 
     @GetMapping("/{name}")
     public ResponseEntity<Optional<InventoryItem>> getSingleInventoryItem(@PathVariable String name) {
-        return new ResponseEntity<>(inventoryService.inventoryItemByName(name), HttpStatus.OK);
-    }
+        Optional<InventoryItem> item = inventoryService.inventoryItemByName(name);
 
-    @PostMapping("/change-quantity")
-    public ResponseEntity<String> addBQDoors(@RequestBody List<InventoryItem> inventoryItems) throws ParseException, ChangeSetPersister.NotFoundException {
-
-
-        Optional<InventoryItem> optionalInventoryItem = inventoryService.inventoryItemByName(inventoryItems.get(0).getName());
-        InventoryItem inventoryItem = inventoryItems.get(0);
-
-        if (optionalInventoryItem.isPresent()) {
-            InventoryItem databaseInventoryItem = optionalInventoryItem.get();
-            String inventoryItemName = databaseInventoryItem.getName();
-            int oldQuantity = databaseInventoryItem.getQuantity();
-            int newQuantity = inventoryItem.getQuantity();
-
-            databaseInventoryItem.setQuantity(newQuantity);
-            inventoryService.updateInventoryItemQuantity(databaseInventoryItem);
-            System.out.println(String.format("INVENTORY ITEM NAME: %s\tOLD QUANTITY: %s\t" +
-                    "NEW QUANTITY: %s", inventoryItemName, oldQuantity, newQuantity));
+        if (item.isEmpty()) {
+            return new ResponseEntity<>(item, HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok("Quantity changed succesfully");
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 }
 
