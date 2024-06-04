@@ -26,6 +26,12 @@ public class CompletedBQDoor {
     private int quantity;
     private Date date;
 
+    public CompletedBQDoor(String name, String month, int quantity) throws ParseException {
+        this.name = name;
+        this.month = month;
+        this.quantity = quantity;
+        createDate();
+    }
     public void createDate() throws ParseException {
         String monthValue = MonthTranslations.convertToNumber(month);
         LocalDate currentDate = LocalDate.now();

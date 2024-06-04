@@ -13,10 +13,6 @@ public class CompletedBQWindowService {
     @Autowired
     private CompletedBQWindowRepository completedBQWindowRepository;
 
-    public void addCompletedBQWindow(CompletedBQWindow completedBQWindow) {
-        completedBQWindowRepository.save(completedBQWindow);
-    }
-
     public void addCompletedBQWindows(List<CompletedBQWindow> completedBQWindows) {
         completedBQWindowRepository.saveAll(completedBQWindows);
     }

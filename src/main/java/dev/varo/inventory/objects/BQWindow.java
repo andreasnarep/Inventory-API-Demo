@@ -18,4 +18,9 @@ public class BQWindow {
     private ObjectId id;
     private String name;
     private Map<String, Integer> materials;
+
+    public BQWindow(String name, Map<String, Integer> materials) {
+        this.name = name;
+        this.materials = materials;
+    }
 }

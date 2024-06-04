@@ -49,7 +49,7 @@ public class CompletedBQDoorController {
                         int newQuantity = inventoryItem.getQuantity() - (bqDoor.getMaterials().get(key) * completedBQDoor.getQuantity());
 
                         inventoryItem.setQuantity(newQuantity);
-                        inventoryService.updateInventoryItemQuantity(inventoryItem);
+                        inventoryService.updateInventoryItem(inventoryItem);
                     }
                 }
             } else {

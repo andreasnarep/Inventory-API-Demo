@@ -13,10 +13,6 @@ public class CompletedPoloDoorService {
     @Autowired
     private CompletedPoloDoorRepository completedPoloDoorRepository;
 
-    public void addCompletedPoloDoor(CompletedPoloDoor completedPoloDoor) {
-        completedPoloDoorRepository.save(completedPoloDoor);
-    }
-
     public void addCompletedPoloDoors(List<CompletedPoloDoor> completedPoloDoors) {
         completedPoloDoorRepository.saveAll(completedPoloDoors);
     }

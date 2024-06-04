@@ -38,7 +38,7 @@ public class CompletedBQWindowControllerTest {
 
         for (InventoryItem item : inventoryItems) {
             item.setQuantity(100);
-            inventoryService.updateInventoryItemQuantity(item);
+            inventoryService.updateInventoryItem(item);
         }
     }
 

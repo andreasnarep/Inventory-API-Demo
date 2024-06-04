@@ -18,4 +18,11 @@ public class InventoryItem {
     private String name;
     private String slat;
     private int lowerLimit;
+
+    public InventoryItem(String name, String slat, int quantity, int lowerLimit) {
+        this.name = name;
+        this.slat = slat;
+        this.quantity = quantity;
+        this.lowerLimit = lowerLimit;
+    }
 }

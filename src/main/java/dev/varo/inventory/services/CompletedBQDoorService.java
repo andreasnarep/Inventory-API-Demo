@@ -14,10 +14,6 @@ public class CompletedBQDoorService {
     @Autowired
     private CompletedBQDoorRepository completedBQDoorRepository;
 
-    public void addCompletedBQDoor(CompletedBQDoor completedBQDoor) {
-        completedBQDoorRepository.save(completedBQDoor);
-    }
-
     public void addCompletedBQDoors(List<CompletedBQDoor> completedBQDoors) {
         completedBQDoorRepository.saveAll(completedBQDoors);
     }

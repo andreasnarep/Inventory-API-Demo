@@ -18,4 +18,9 @@ public class BQDoor {
     private ObjectId id;
     private String name;
     private Map<String, Integer> materials;
+
+    public BQDoor(String name, Map<String, Integer> materials) {
+        this.name = name;
+        this.materials = materials;
+    }
 }

@@ -3,7 +3,6 @@ package dev.varo.inventory.services;
 import dev.varo.inventory.objects.InventoryItem;
 import dev.varo.inventory.repositories.InventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class InventoryService {
         return inventoryRepository.findInventoryItemByName(name);
     }
 
-    public void updateInventoryItemQuantity(InventoryItem item) {
+    public void updateInventoryItem(InventoryItem item) {
         inventoryRepository.save(item);
     }
 }

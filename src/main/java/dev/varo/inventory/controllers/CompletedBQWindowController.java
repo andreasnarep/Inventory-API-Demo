@@ -47,7 +47,7 @@ public class CompletedBQWindowController {
                         int newQuantity = inventoryItem.getQuantity() - (bqWindow.getMaterials().get(key) * completedBQWindow.getQuantity());
 
                         inventoryItem.setQuantity(newQuantity);
-                        inventoryService.updateInventoryItemQuantity(inventoryItem);
+                        inventoryService.updateInventoryItem(inventoryItem);
                     }
                 }
             } else {

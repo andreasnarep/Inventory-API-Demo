@@ -47,7 +47,7 @@ public class CompletedPoloDoorController {
                         int newQuantity = inventoryItem.getQuantity() - (poloDoor.getMaterials().get(key) * completedPoloDoor.getQuantity());
 
                         inventoryItem.setQuantity(newQuantity);
-                        inventoryService.updateInventoryItemQuantity(inventoryItem);
+                        inventoryService.updateInventoryItem(inventoryItem);
                     }
                 }
             } else {
